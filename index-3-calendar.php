@@ -86,7 +86,9 @@ if( !isset($_SESSION['username']) )
                         	<h2>appointments</h2>
 
 <?php
-//simple calendar that goes back a year, listing all the appointments of each user; each box/cell/day should have the appointment time and doctor's name
+echo "<br><br>";
+
+echo "This is where we'd put our appointments, if we had any...";
 ?>
 
                         </center>

@@ -85,10 +85,67 @@ if( !isset($_SESSION['username']) )
                 <div class="wrapper indent1">
                     <article class="grid_24">
                     	<center>
-                        	<h2>prescriptions</h2>
+                        	<h2>prescription</h2>
 
 <?php
-//list all the prescriptions tied to the user (they can have anywhere from 0 to infinity), with their startdate and refills remaining; maybe even throw in a google image search of the drug name?
+$username = $_SESSION['username'];
+
+//Prescription information.
+$select = oci_parse( $oracle_conn, "SELECT name, price, startdate, refills FROM prescriptions WHERE userid = (SELECT userid FROM users WHERE username = '$username')" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+if( !empty($array) )
+{
+
+$name = $array[0];
+$price = $array[1];
+$startdate = $array[2];
+$refills = $array[3];
+
+echo "<br><br>";
+echo "<strong>Name:</strong> " . $name . "<br>";
+echo "<strong>Price:</strong> $" . $price . "<br>";
+echo "<strong>Start Date:</strong> " . $startdate . "<br>";
+echo "<strong>Refills Remaining:</strong> " . $refills . "<br>";
+echo "<br><br>";
+
+
+
+//Average information.
+$select = oci_parse( $oracle_conn, "SELECT AVG(price) FROM prescriptions INNER JOIN insurance ON prescriptions.userid = insurance.userid WHERE prescriptions.name = '$name'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$avg_price = $array[0];
+
+if( $price <= $avg_price ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your provider's average price is $" . round($avg_price, 2) . "</span><br>";
+
+
+
+//Overall information.
+$select = oci_parse( $oracle_conn, "SELECT AVG(price) FROM prescriptions WHERE name = '$name'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$ovr_price = $array[0];
+
+if( $price <= $ovr_price ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "The overall average price is $" . round($ovr_price, 2) . "</span><br>";
+
+}
+else echo "<br><br><span style='color:#FF0000'>You have no prescriptions.</span>";
+
+oci_close($oracle_conn);
 ?>
 
                         </center>

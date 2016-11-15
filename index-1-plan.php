@@ -86,9 +86,9 @@ if( !isset($_SESSION['username']) )
                         	<h2>plan info</h2>
 
 <?php
-//Doctor information.
 $username = $_SESSION['username'];
 
+//Doctor information.
 $select = oci_parse( $oracle_conn, "SELECT name, address, phone FROM doctors WHERE doctorid = (SELECT doctorid FROM users WHERE username = '$username')" );
 oci_execute($select);
 
@@ -141,15 +141,15 @@ echo "<br><br>";
 
 if( $copay <= $avg_copay ) echo "<span style='color:#006600'>";
 else echo "<span style='color:#FF0000'>";
-echo "Your provider's average copay is $" . $avg_copay . "</span><br>";
+echo "Your provider's average copay is $" . round($avg_copay, 2) . "</span><br>";
 
 if( $premium <= $avg_premium ) echo "<span style='color:#006600'>";
 else echo "<span style='color:#FF0000'>";
-echo "Your provider's average premium is $" . $avg_premium . "</span><br>";
+echo "Your provider's average premium is $" . round($avg_premium, 2) . "</span><br>";
 
 if( $deductible <= $avg_deductible ) echo "<span style='color:#006600'>";
 else echo "<span style='color:#FF0000'>";
-echo "Your provider's average deductible is $" . $avg_deductible . "</span><br>";
+echo "Your provider's average deductible is $" . round($avg_deductible, 2) . "</span><br>";
 
 echo "<br><br>";
 oci_close($oracle_conn);
