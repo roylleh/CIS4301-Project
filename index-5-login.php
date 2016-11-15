@@ -85,6 +85,7 @@ if( isset($_SESSION['username']) )
                     <article class="grid_24">
                     	<center>
                         	<p><strong>Please login to continue.</strong></p>
+
 <?php
 $validated = false;
 
@@ -124,14 +125,14 @@ if( !$validated )
         	<td align="right" valign="baseline"><strong>Username:&nbsp;&nbsp;</strong></td>
             <td align="left" valign="baseline"><input name="username" id="username" type="text"/></td>
         </tr>
-        
+        <tr><td>&nbsp;</td></tr>
         <tr>
         	<td align="right" valign="baseline"><strong>Password:&nbsp;&nbsp;</strong></td>
             <td align="left" valign="baseline"><input name="password" id="password" type="password"/></td>
         </tr>
-        
+        <tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><input type="hidden" name="validate" value="yes"/></td>
+        	<td align="right" valign="baseline"><input name="validate" type="hidden" value="yes"/></td>
             <td align="left" valign="baseline"><input name="submit" type="submit" value="Login"/></td>
         </tr>
     </table>
@@ -139,6 +140,7 @@ if( !$validated )
 <?php
 }
 ?>
+
                         </center>
                     </article>
                 </div>

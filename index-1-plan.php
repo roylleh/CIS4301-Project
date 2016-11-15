@@ -80,36 +80,82 @@ if( !isset($_SESSION['username']) )
     <div class="main">
         <section id="content">
             <div class="container_24">
-                <div class="wrapper stripe stripe_box1">
-                    <article class="grid_10">
-                    	<h2>we will make</h2>
-                        <h3 class="ind">your life more comfortable!</h3>
-                        <p><span class="img_wrap"><img src="images/2page_img1.jpg" width="380" height="152" alt=""></span></p>
-                        <span class="black">Est omnis doloresereledusempquibdameto</span><br>
-                        aurerumoms odesden necessarestude.susandaeItaquearumumel rerum hic tenetura sapiravi. Reiciendis vptatibuass maiores alias.
-                        Asperiores repellat aurerum odes necessbus saepe...<br>
-						<a href="#" class="button">more</a>
-                    </article>
-                    <article class="grid_12 prefix_2">
-                        <h2>Shortly about us </h2>
-                        <h3 class="ind">we create beauty and harmony!</h3>
-                        <div class="extra_container harmony">
-                            <figure><img src="images/2page_img2.jpg" width="110" height="112" alt=""></figure>
-                            <div>
-                            	<div class="title">Massa as laoreet dolore.</div>
-                                <a href="#">Est omnis doloresereledusempquibdameto aurerumoms odesn necessivrestude.susandaeItaquearumel rerum hic tenetura sapiravi. Reiciendis vptatibuass maioreslias.
-Asperiores repellat aurerum odes necessbus saepe...</a>
-                            </div>
-                      	</div>
-                        <div class="extra_container harmony m_bottom_zero">
-                            <figure><img src="images/2page_img3.jpg" width="110" height="112" alt=""></figure>
-                            <div>
-                            	<div class="title">Voluptatum mode repellat magnum.</div>
-                                <a href="#">Est omnis doloresereledusempquibdameto aurerumoms odesn necessitatibus restude.susand aeItaqu earumelu rerum hic tenetura sapiravi. Reiciendis vptatimaioreslias.
-Asperiores repellat aurerum odes necessbus saepe...</a>
-                            </div>
-                      	</div>
-                        <a href="#" class="button but_ind">more</a>
+                <div class="wrapper indent1">
+                    <article class="grid_24">
+                    	<center>
+                        	<h2>plan info</h2>
+
+<?php
+//Doctor information.
+$username = $_SESSION['username'];
+
+$select = oci_parse( $oracle_conn, "SELECT name, address, phone FROM doctors WHERE doctorid = (SELECT doctorid FROM users WHERE username = '$username')" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$name = $array[0];
+$address = $array[1];
+$phone = $array[2];
+
+echo "<br><br>";
+echo "<strong>Doctor's Name: </strong>" . $name . "<br>";
+echo "<strong>Doctor's Address: </strong>" . $address . "<br>";
+echo "<strong>Doctor's Phone: </strong>" . $phone . "<br>";
+
+
+
+//Plan information.
+$select = oci_parse( $oracle_conn, "SELECT company, copay, premium, deductible FROM insurance WHERE userid = (SELECT userid FROM users WHERE username = '$username')" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$company = $array[0];
+$copay = $array[1];
+$premium = $array[2];
+$deductible = $array[3];
+
+echo "<br><br>";
+echo "<strong>Provider:</strong> " . $company . "<br>";
+echo "<strong>Copay:</strong> $" . $copay . "<br>";
+echo "<strong>Premium:</strong> $" . $premium . "<br>";
+echo "<strong>Deductible:</strong> $" . $deductible . "<br>";
+
+
+
+//Average information.
+$select = oci_parse( $oracle_conn, "SELECT AVG(copay), AVG(premium), AVG(deductible) FROM insurance WHERE company = '$company'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$avg_copay = $array[0];
+$avg_premium = $array[1];
+$avg_deductible = $array[2];
+
+echo "<br><br>";
+
+if( $copay <= $avg_copay ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your provider's average copay is $" . $avg_copay . "</span><br>";
+
+if( $premium <= $avg_premium ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your provider's average premium is $" . $avg_premium . "</span><br>";
+
+if( $deductible <= $avg_deductible ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your provider's average deductible is $" . $avg_deductible . "</span><br>";
+
+echo "<br><br>";
+oci_close($oracle_conn);
+?>
+
+                        </center>
                     </article>
                 </div>
             </div>

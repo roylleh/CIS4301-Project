@@ -82,56 +82,14 @@ if( !isset($_SESSION['username']) )
             <div class="container_24">
                 <div class="wrapper indent1">
                     <article class="grid_24">
-                    	<h2>our products</h2>
-                        <h3 class="ind1">We'll make your life more comfortable!</h3>	
-                       <div class="wrapper prod_box">
-                          <div class="grid_12 alpha">
-                          	<div class="extra_container product">
-                                <figure><img src="images/4page_img1.jpg" width="182" height="138" alt=""></figure>
-                                <div>
-                                	<div class="title">Pruduct Name #1</div>
-                                    Est omnis doloresereledusempquibdameto aurerumoms odesn inecesude susandaeIau
-earumel rerum hic tenetura.<br>
-									<a href="#" class="button">more</a>
-                                </div>
-                            </div>
-                          </div>	
-                          <div class="grid_12 omega">
-                          	<div class="extra_container product">
-                                <figure><img src="images/4page_img3.jpg" width="182" height="138" alt=""></figure>
-                                <div>
-                                	<div class="title">Pruduct Name #2</div>
-                                    Est omnis doloresereledusempquibdameto aurerumoms odesn inecesude susandaeIau
-earumel rerum hic tenetura.<br>
-									<a href="#" class="button">more</a>
-                                </div>
-                            </div>
-                          </div>
-                       </div>
-                       <div class="wrapper prod_box m_bottom_zero">
-                          <div class="grid_12 alpha">
-                          	<div class="extra_container product">
-                                <figure><img src="images/4page_img2.jpg" width="182" height="138" alt=""></figure>
-                                <div>
-                                	<div class="title">Pruduct Name #3</div>
-                                    Est omnis doloresereledusempquibdameto aurerumoms odesn inecesude susandaeIau
-earumel rerum hic tenetura.<br>
-									<a href="#" class="button">more</a>
-                                </div>
-                            </div>
-                          </div>	
-                          <div class="grid_12 omega">
-                          	<div class="extra_container product">
-                                <figure><img src="images/4page_img4.jpg" width="182" height="138" alt=""></figure>
-                                <div>
-                                	<div class="title">Pruduct Name #4</div>
-                                    Est omnis doloresereledusempquibdameto aurerumoms odesn inecesude susandaeIau
-earumel rerum hic tenetura.<br>
-									<a href="#" class="button">more</a>
-                                </div>
-                            </div>
-                          </div>
-                       </div>     
+                    	<center>
+                        	<h2>appointments</h2>
+
+<?php
+//simple calendar that goes back a year, listing all the appointments of each user; each box/cell/day should have the appointment time and doctor's name
+?>
+
+                        </center>
                   	</article>
                 </div>
             </div>

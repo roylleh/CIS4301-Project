@@ -81,51 +81,96 @@ if( !isset($_SESSION['username']) )
     <div class="main">
         <section id="content">
             <div class="container_24">
-                <div class="wrapper indent stripe_box1">
-                    <article class="grid_10">
-                    	<h2>contact info</h2>
-                        <h3 class="ind1">Exquisite interior!</h3>
-                        <span class="map_wrapper">
-                        	<iframe id="map_canvas" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Brooklyn,+New+York,+NY,+United+States&amp;aq=0&amp;sll=37.0625,-95.677068&amp;sspn=61.282355,146.513672&amp;ie=UTF8&amp;hq=&amp;hnear=Brooklyn,+Kings,+New+York&amp;ll=40.649974,-73.950005&amp;spn=0.01628,0.025663&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
-                        </span>
-                        <dl class="adress">
-                          <dt><strong>8901 Marmora Road, Glasgow, D04 89GR.</strong></dt>
-                          <dd><span>Telephone:</span>+1 800 603 6035</dd>
-                          <dd><span>FAX:</span>+1 800 889 9898</dd>
-                          <dd>E-mail: <a href="#">mail@demolink.org</a></dd>
-                        </dl>
-                    </article>
-                    <article class="grid_12 prefix_2">
-                    	<h2>Feedback</h2>
-                        <h3 class="ind1">Open the door of happiness!!</h3>
-                        <form id="contact-form">
-                         <fieldset>
-                              <label class="name">
-                                      <input type="text" value="Name">
-                                  <span class="error">*This is not a valid name.</span> <span class="empty">*This field is required.</span>
-                              </label>
-                              <label class="email">
-                                      <input type="text" value="E-mail">
-                                  <span class="error">*This is not a valid email address.</span> <span class="empty">*This field is required.</span>
-                              </label>
-                              <label class="phone">
-                                      <input type="text" value="Phone">
-                                  <span class="error">*This is not a valid phone number.</span> <span class="empty">*This field is required.</span>
-                              </label>
-                              <label class="message">
-                                      <textarea>Message</textarea>
-                                  <span class="error">*The message is too short.</span> <span class="empty">*This field is required.</span>
-                              </label>
-                              <div class="success">Contact form submitted!<br>
-                                  <strong>We will be in touch soon.</strong>
-                              </div>
-                              <div class="buttons2">
-                                  <a href="#" data-type="reset" class="button">Clear</a>
-                                  <a href="#" data-type="submit" class="button">send</a>
-                              </div>
-                          </fieldset>
-                      </form>
-                        
+                <div class="wrapper indent1">
+                    <article class="grid_24">
+                    	<center>
+                        	<h2>customer information</h2>
+
+<?php
+$username = $_SESSION['username'];
+
+if( $_POST['validate'] == 'yes' )
+{
+	$password = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['password']) );
+	$email = trim( preg_replace("/[^a-zA-Z0-9@.]/", "", $_POST['email']) );
+	$address = preg_replace( "/[^a-zA-Z0-9 ]/", "", $_POST['address'] );
+	$phone = preg_replace( "/[^0-9 ]/", "", $_POST['phone'] );
+	
+	$update = oci_parse( $oracle_conn, "UPDATE users SET password = '$password', email = '$email', address = '$address', phone = '$phone' WHERE username = '$username'" );
+	oci_execute($update);
+	oci_commit($oracle_conn);
+	oci_free_statement($update);
+}
+
+$select = oci_parse( $oracle_conn, "SELECT password, name, email, dob, address, phone, ssn FROM users WHERE username = '$username'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+
+$password = $array[0];
+$name = $array[1];
+$email = $array[2];
+$dob = $array[3];
+$address = $array[4];
+$phone = $array[5];
+$ssn = $array[6];
+
+oci_free_statement($select);
+
+oci_close($oracle_conn);
+echo "<br><br>";
+?>
+
+<form name="update" method="post">
+	<table>
+    	<tr>
+        	<td align="right" valign="baseline"><strong>Username:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><?php echo $username; ?></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>Password:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><input name="password" id="password" type="password" value="<?php echo $password; ?>"/></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>Name:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><?php echo $name; ?></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>Email:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><input name="email" id="email" type="text" value="<?php echo $email; ?>"/></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>DOB:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><?php echo $dob; ?></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>Address:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><input name="address" id="address" type="text" value="<?php echo $address; ?>"/></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>Phone:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><input name="phone" id="phone" type="text" value="<?php echo $phone; ?>"/></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><strong>SSN:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="baseline"><?php echo $ssn; ?></td>
+        </tr>
+        	<tr><td>&nbsp;</td></tr>
+        <tr>
+        	<td align="right" valign="baseline"><input name="validate" type="hidden" value="yes"/></td>
+            <td align="left" valign="baseline"><input name="submit" type="submit" value="Update"/></td>
+        </tr>
+    </table>
+</form>
+
+                        </center>
                     </article>
                 </div>
             </div>

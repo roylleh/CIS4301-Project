@@ -82,86 +82,17 @@ if( !isset($_SESSION['username']) )
     <div class="main">
         <section id="content">
             <div class="container_24">
-                <div class="stripe stripe_box2">
-                    <article class="grid_15">
-                    	<div class="scrool_box scroll-pane">
-                            <div class="box">
-                            	<h2>modern services</h2>
-                                <h3 class="ind1">Exquisite interior arrangements!</h3>
-                                <div class="extra_container services">
-                                    <figure><img src="images/3page_img1.jpg" width="113" height="111" alt=""></figure>
-                                    <div>
-                                        <div class="title">Interior Decorating Services </div>
-                                        <p>Est omnis doloresereledusempquibdameto aurerumoms odesn in neces
-                                        ude.susandaeItaquearumel rerum hic tenetura sapiravivptatibuas.</p>
-                                        <ul class="list2">
-                                            <li><a href="#">Functional space planning and design</a></li>
-                                            <li><a href="#">Fabric and furniture selection / placement</a></li>
-                                            <li><a href="#">Drapery and window treatments</a></li>
-                                            <li><a href="#">General, task, accent, and mood lighting</a></li>                                	
-                                        </ul>    
-                                    </div>
-                              </div>
-                              <div class="extra_container services">
-                                    <figure><img src="images/3page_img2.jpg" width="113" height="111" alt=""></figure>
-                                    <div>
-                                        <div class="title">Interior Design Services for New Home Construction</div>
-                                        <p>Est omnis doloresereledusempquibdameto aurerumoms odesn in neces
-                                        ude.susandaeItaquearumel rerum hic tenetura sapiravivptatibuas.</p>
-                                        <ul class="list2">
-                                           <li><a href="#">Wall finishes (paint, stone or ceramic tile, wall covering)</a></li>
-                                            <li><a href="#">Custom stairs, balusters and handrails</a></li>                               	
-                                        </ul>
-                                        
-                                    </div>
-                              </div>
-                              <div class="extra_container services">
-                                    <figure><img src="images/3page_img1.jpg" width="113" height="111" alt=""></figure>
-                                    <div>
-                                        <div class="title">Interior Decorating Services </div>
-                                        <p>Est omnis doloresereledusempquibdameto aurerumoms odesn in neces
-                                        ude.susandaeItaquearumel rerum hic tenetura sapiravivptatibuas.</p>
-                                        <ul class="list2">
-                                            <li><a href="#">Functional space planning and design</a></li>
-                                            <li><a href="#">Fabric and furniture selection / placement</a></li>
-                                            <li><a href="#">Drapery and window treatments</a></li>
-                                            <li><a href="#">General, task, accent, and mood lighting</a></li>                                	
-                                        </ul>    
-                                    </div>
-                              </div>
-                              <div class="extra_container services m_bottom_zero">
-                                    <figure><img src="images/3page_img2.jpg" width="113" height="111" alt=""></figure>
-                                    <div>
-                                        <div class="title">Interior Design Services for New Home Construction</div>
-                                        <p>Est omnis doloresereledusempquibdameto aurerumoms odesn in neces
-                                        ude.susandaeItaquearumel rerum hic tenetura sapiravivptatibuas.</p>
-                                        <ul class="list2">
-                                           <li><a href="#">Wall finishes (paint, stone or ceramic tile, wall covering)</a></li>
-                                            <li><a href="#">Custom stairs, balusters and handrails</a></li>                               	
-                                        </ul>
-                                        
-                                    </div>
-                              </div>
-                            </div>
-                       </div>   
-                  	</article>
-                    <article class="grid_7 prefix_2">
-                        <h2>services list</h2>
-                        <h3 class="ind2">Express your style!</h3>
-                        <ul class="list3">
-                            <li><a href="#">Interior Design Consultation </a></li>
-                            <li><a href="#">Project Management </a></li>
-                            <li><a href="#">Space Planning </a></li>
-                            <li><a href="#">Paint and Color Selection </a></li>
-                            <li><a href="#">Fixture Specification </a></li>
-                            <li><a href="#">Re-upholstery of existing furniture</a></li>
-                            <li><a href="#">Contractor Management </a></li>
-                            <li><a href="#">Art Consultation </a></li>
-                            <li><a href="#">Draperies/Window Coverings</a></li>
-                            <li><a href="#">Floral and Plant Design</a></li>                       
-                        </ul>
+                <div class="wrapper indent1">
+                    <article class="grid_24">
+                    	<center>
+                        	<h2>prescriptions</h2>
+
+<?php
+//list all the prescriptions tied to the user (they can have anywhere from 0 to infinity), with their startdate and refills remaining; maybe even throw in a google image search of the drug name?
+?>
+
+                        </center>
                     </article>
-                    <div class="clear"></div>
                 </div>
             </div>
         </section>
