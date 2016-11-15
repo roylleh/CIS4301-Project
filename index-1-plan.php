@@ -104,6 +104,14 @@ echo "<strong>Doctor's Name: </strong>" . $name . "<br>";
 echo "<strong>Doctor's Address: </strong>" . $address . "<br>";
 echo "<strong>Doctor's Phone: </strong>" . $phone . "<br>";
 
+$select = oci_parse( $oracle_conn, "SELECT COUNT(*) FROM users WHERE doctorid = (SELECT doctorid FROM users WHERE username = '$username')" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+echo "<br>Including you, Dr. " . $name . " has a total of <strong>" . $array[0] . "</strong> patient(s).<br>";
+
 
 
 //Plan information.

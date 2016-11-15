@@ -94,14 +94,14 @@ if( $_POST['validate'] == 'yes' )
 	$username = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['username']) );
 	$password = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['password']) );
 	
-	$login = oci_parse( $oracle_conn, "SELECT * FROM users WHERE username = '$username' AND password = '$password'" );
+	$login = oci_parse( $oracle_conn, "SELECT COUNT(*) FROM users WHERE username = '$username' AND password = '$password'" );
 	oci_execute($login);
-	oci_fetch($login);
 	
-	if( oci_num_rows($login) == 1 )
+	$array = oci_fetch_array($login);
+	oci_free_statement($login);
+	
+	if( $array[0] == 1 )
 	{
-		oci_free_statement($login);
-		oci_close($oracle_conn);
 		$validated = true;
 		
 		session_start();
@@ -114,6 +114,8 @@ if( $_POST['validate'] == 'yes' )
 		echo "<span style='color:#FF0000'>Invalid Username or Password. Please try again.</span>";
 	}
 }
+
+oci_close($oracle_conn);
 echo "<br><br>";
 
 if( !$validated )
