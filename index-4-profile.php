@@ -92,9 +92,9 @@ $username = $_SESSION['username'];
 if( $_POST['validate'] == 'yes' )
 {
 	$password = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['password']) );
-	$email = trim( preg_replace("/[^a-zA-Z0-9@.]/", "", $_POST['email']) );
-	$address = preg_replace( "/[^a-zA-Z0-9 ]/", "", $_POST['address'] );
-	$phone = preg_replace( "/[^0-9 ]/", "", $_POST['phone'] );
+	$email = trim( preg_replace("/[^a-zA-Z0-9_@.]/", "", $_POST['email']) );
+	$address = preg_replace( "/[^a-zA-Z0-9 .]/", "", $_POST['address'] );
+	$phone = preg_replace( "/[^0-9() ]/", "", $_POST['phone'] );
 	
 	$update = oci_parse( $oracle_conn, "UPDATE users SET password = '$password', email = '$email', address = '$address', phone = '$phone' WHERE username = '$username'" );
 	oci_execute($update);
