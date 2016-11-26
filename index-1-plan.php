@@ -86,6 +86,7 @@ if( !isset($_SESSION['username']) )
                         	<h2>plan info</h2>
 
 <?php
+echo "<br><br>";
 $username = $_SESSION['username'];
 
 //Doctor information.
@@ -99,9 +100,8 @@ $name = $array[0];
 $address = $array[1];
 $phone = $array[2];
 
-echo "<br><br>";
 echo "<strong>Doctor's Name: </strong>" . $name . "<br>";
-echo "<strong>Doctor's Address: </strong>" . $address . "<br>";
+echo "<strong>Doctor's Address: </strong><a target='_blank' href='https://encrypted.google.com/#q=$address'>" . $address . "</a><br>";
 echo "<strong>Doctor's Phone: </strong>" . $phone . "<br>";
 
 $select = oci_parse( $oracle_conn, "SELECT COUNT(*) FROM users WHERE doctorid = (SELECT doctorid FROM users WHERE username = '$username')" );
@@ -111,6 +111,7 @@ $array = oci_fetch_array($select);
 oci_free_statement($select);
 
 echo "<br>Including you, Dr. " . $name . " has a total of <strong>" . $array[0] . "</strong> patient(s).<br>";
+echo "<br><br>";
 
 
 
@@ -126,16 +127,32 @@ $copay = $array[1];
 $premium = $array[2];
 $deductible = $array[3];
 
+echo "<strong>Provider: </strong><a target='_blank' href='https://encrypted.google.com/#q=$company'>" . $company . "</a><br>";
+echo "<strong>Copay: </strong>$" . $copay . "<br>";
+echo "<strong>Premium: </strong>$" . $premium . "<br>";
+echo "<strong>Deductible: </strong>$" . $deductible . "<br>";
+
+$select = oci_parse( $oracle_conn, "SELECT COUNT(*) FROM insurance WHERE company = '$company'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+echo "<br>Including you, " . $company . " has a total of <strong>" . $array[0] . "</strong> patient(s).<br>";
 echo "<br><br>";
-echo "<strong>Provider:</strong> " . $company . "<br>";
-echo "<strong>Copay:</strong> $" . $copay . "<br>";
-echo "<strong>Premium:</strong> $" . $premium . "<br>";
-echo "<strong>Deductible:</strong> $" . $deductible . "<br>";
 
 
 
-//Average information.
-$select = oci_parse( $oracle_conn, "SELECT AVG(copay), AVG(premium), AVG(deductible) FROM insurance WHERE company = '$company'" );
+//Average doctor information.
+$select = oci_parse( $oracle_conn, "
+SELECT AVG(copay), AVG(premium), AVG(deductible)
+FROM insurance
+INNER JOIN users
+ON insurance.userid = users.userid
+INNER JOIN doctors
+ON users.doctorid = doctors.doctorid
+WHERE doctors.name = '$name'
+" );
 oci_execute($select);
 
 $array = oci_fetch_array($select);
@@ -145,7 +162,32 @@ $avg_copay = $array[0];
 $avg_premium = $array[1];
 $avg_deductible = $array[2];
 
+if( $copay <= $avg_copay ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your doctor's average copay is $" . round($avg_copay, 2) . "</span><br>";
+
+if( $premium <= $avg_premium ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your doctor's average premium is $" . round($avg_premium, 2) . "</span><br>";
+
+if( $deductible <= $avg_deductible ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "Your doctor's average deductible is $" . round($avg_deductible, 2) . "</span><br>";
+
 echo "<br><br>";
+
+
+
+//Average provider information.
+$select = oci_parse( $oracle_conn, "SELECT AVG(copay), AVG(premium), AVG(deductible) FROM insurance WHERE company = '$company'" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$avg_copay = $array[0];
+$avg_premium = $array[1];
+$avg_deductible = $array[2];
 
 if( $copay <= $avg_copay ) echo "<span style='color:#006600'>";
 else echo "<span style='color:#FF0000'>";
@@ -160,6 +202,34 @@ else echo "<span style='color:#FF0000'>";
 echo "Your provider's average deductible is $" . round($avg_deductible, 2) . "</span><br>";
 
 echo "<br><br>";
+
+
+
+//Average network information.
+$select = oci_parse( $oracle_conn, "SELECT AVG(copay), AVG(premium), AVG(deductible) FROM insurance" );
+oci_execute($select);
+
+$array = oci_fetch_array($select);
+oci_free_statement($select);
+
+$avg_copay = $array[0];
+$avg_premium = $array[1];
+$avg_deductible = $array[2];
+
+if( $copay <= $avg_copay ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "The network's average copay is $" . round($avg_copay, 2) . "</span><br>";
+
+if( $premium <= $avg_premium ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "The network's average premium is $" . round($avg_premium, 2) . "</span><br>";
+
+if( $deductible <= $avg_deductible ) echo "<span style='color:#006600'>";
+else echo "<span style='color:#FF0000'>";
+echo "The network's average deductible is $" . round($avg_deductible, 2) . "</span><br>";
+
+echo "<br><br>";
+
 oci_close($oracle_conn);
 ?>
 

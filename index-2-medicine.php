@@ -88,62 +88,96 @@ if( !isset($_SESSION['username']) )
                         	<h2>prescription</h2>
 
 <?php
+echo "<br><br>";
 $username = $_SESSION['username'];
 
-//Prescription information.
-$select = oci_parse( $oracle_conn, "SELECT name, price, startdate, refills FROM prescriptions WHERE userid = (SELECT userid FROM users WHERE username = '$username')" );
-oci_execute($select);
+$medicine = oci_parse( $oracle_conn, "SELECT name, price, startdate, refills FROM prescriptions WHERE userid = (SELECT userid FROM users WHERE username = '$username')" );
+oci_execute($medicine);
 
-$array = oci_fetch_array($select);
-oci_free_statement($select);
-
-if( !empty($array) )
+while( ($row = oci_fetch_row($medicine)) != false )
 {
-
-$name = $array[0];
-$price = $array[1];
-$startdate = $array[2];
-$refills = $array[3];
-
-echo "<br><br>";
-echo "<strong>Name:</strong> " . $name . "<br>";
-echo "<strong>Price:</strong> $" . $price . "<br>";
-echo "<strong>Start Date:</strong> " . $startdate . "<br>";
-echo "<strong>Refills Remaining:</strong> " . $refills . "<br>";
-echo "<br><br>";
-
-
-
-//Average information.
-$select = oci_parse( $oracle_conn, "SELECT AVG(price) FROM prescriptions INNER JOIN insurance ON prescriptions.userid = insurance.userid WHERE prescriptions.name = '$name'" );
-oci_execute($select);
-
-$array = oci_fetch_array($select);
-oci_free_statement($select);
-
-$avg_price = $array[0];
-
-if( $price <= $avg_price ) echo "<span style='color:#006600'>";
-else echo "<span style='color:#FF0000'>";
-echo "Your provider's average price is $" . round($avg_price, 2) . "</span><br>";
-
-
-
-//Overall information.
-$select = oci_parse( $oracle_conn, "SELECT AVG(price) FROM prescriptions WHERE name = '$name'" );
-oci_execute($select);
-
-$array = oci_fetch_array($select);
-oci_free_statement($select);
-
-$ovr_price = $array[0];
-
-if( $price <= $ovr_price ) echo "<span style='color:#006600'>";
-else echo "<span style='color:#FF0000'>";
-echo "The overall average price is $" . round($ovr_price, 2) . "</span><br>";
-
+	//Prescription information.
+	$name = $row[0];
+	$price = $row[1];
+	$startdate = $row[2];
+	$refills = $row[3];
+	
+	echo "<strong>Name: </strong><a target='_blank' href='https://encrypted.google.com/#q=$name'>" . $name . "</a><br>";
+	echo "<strong>Price: </strong>$" . $price . "<br>";
+	echo "<strong>Start Date: </strong>" . $startdate . "<br>";
+	echo "<strong>Refills Remaining: </strong>" . $refills . "<br>";
+	echo "<br>";
+	
+	
+	
+	//Average doctor information.
+	$select = oci_parse( $oracle_conn, "
+	SELECT AVG(price)
+	FROM prescriptions
+	INNER JOIN users
+	ON prescriptions.userid = users.userid
+	INNER JOIN doctors
+	ON users.doctorid = doctors.doctorid
+	WHERE doctors.name = ( SELECT name FROM doctors WHERE doctorid = (SELECT doctorid FROM users WHERE username = '$username') )
+	AND prescriptions.name = '$name'
+	" );
+	oci_execute($select);
+	
+	$array = oci_fetch_array($select);
+	oci_free_statement($select);
+	
+	$avg_price = $array[0];
+	
+	if( $price <= $avg_price ) echo "<span style='color:#006600'>";
+	else echo "<span style='color:#FF0000'>";
+	echo "Your doctor's average price is $" . round($avg_price, 2) . "</span><br>";
+	
+	
+	
+	//Average provider information.
+	$select = oci_parse( $oracle_conn, "
+	SELECT AVG(price)
+	FROM prescriptions
+	INNER JOIN users
+	ON prescriptions.userid = users.userid
+	INNER JOIN insurance
+	ON users.userid = insurance.userid
+	WHERE insurance.company = ( SELECT company FROM insurance WHERE userid = (SELECT userid FROM users WHERE username = '$username') )
+	AND prescriptions.name = '$name'
+	" );
+	oci_execute($select);
+	
+	$array = oci_fetch_array($select);
+	oci_free_statement($select);
+	
+	$avg_price = $array[0];
+	
+	if( $price <= $avg_price ) echo "<span style='color:#006600'>";
+	else echo "<span style='color:#FF0000'>";
+	echo "Your provider's average price is $" . round($avg_price, 2) . "</span><br>";
+	
+	
+	
+	//Average network information.
+	$select = oci_parse( $oracle_conn, "SELECT AVG(price) FROM prescriptions WHERE name = '$name'" );
+	oci_execute($select);
+	
+	$array = oci_fetch_array($select);
+	oci_free_statement($select);
+	
+	$avg_price = $array[0];
+	
+	if( $price <= $avg_price ) echo "<span style='color:#006600'>";
+	else echo "<span style='color:#FF0000'>";
+	echo "The network's average price is $" . round($avg_price, 2) . "</span><br>";
+	
+	
+	echo "<br><br>";
 }
-else echo "<br><br><span style='color:#FF0000'>You have no prescriptions.</span>";
+
+if( empty($name) ) echo "<span style='color:#FF0000'>You have no prescriptions at the moment.</span>";
+oci_free_statement($medicine);
+
 
 oci_close($oracle_conn);
 ?>
