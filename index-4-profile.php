@@ -58,7 +58,7 @@ if( !isset($_SESSION['username']) )
             <?php
 			if( isset($_SESSION['username']) )
 			{
-				echo "Welcome, " . $_SESSION['username'];
+				echo "Welcome, <a target='_blank' href='index-4-profile.php'>" . $_SESSION['username'] . "</a>";
 				echo "</br>";
 				echo "<a href='index-6-logout.php'>Logout</a>";
 			}
@@ -124,48 +124,48 @@ echo "<br><br>";
 <form name="update" method="post">
 	<table>
     	<tr>
-        	<td align="right" valign="baseline"><strong>Username:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><?php echo $username; ?></td>
+        	<td align="right" valign="middle"><strong>Username:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><?php echo $username; ?></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Password:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="password" id="password" type="password" value="<?php echo $password; ?>"/></td>
+        	<td align="right" valign="middle"><strong>Password:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="password" id="password" type="password" value="<?php echo $password; ?>"/></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Name:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><?php echo $name; ?></td>
+        	<td align="right" valign="middle"><strong>Name:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><?php echo $name; ?></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Email:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="email" id="email" type="text" value="<?php echo $email; ?>"/></td>
+        	<td align="right" valign="middle"><strong>Email:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="email" id="email" type="text" value="<?php echo $email; ?>"/></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>DOB:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><?php echo $dob; ?></td>
+        	<td align="right" valign="middle"><strong>DOB:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><?php echo $dob; ?></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Address:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="address" id="address" type="text" value="<?php echo $address; ?>"/></td>
+        	<td align="right" valign="middle"><strong>Address:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="address" id="address" type="text" value="<?php echo $address; ?>"/></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Phone:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="phone" id="phone" type="text" value="<?php echo $phone; ?>"/></td>
+        	<td align="right" valign="middle"><strong>Phone:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="phone" id="phone" type="text" value="<?php echo $phone; ?>"/></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>SSN:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><?php echo $ssn; ?></td>
+        	<td align="right" valign="middle"><strong>SSN:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><?php echo $ssn; ?></td>
         </tr>
         	<tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><input name="validate" type="hidden" value="yes"/></td>
-            <td align="left" valign="baseline"><input name="submit" type="submit" value="Update"/></td>
+        	<td align="right" valign="middle"><input name="validate" type="hidden" value="yes"/></td>
+            <td align="left" valign="middle"><input name="submit" type="submit" value="Update"/></td>
         </tr>
     </table>
 </form>

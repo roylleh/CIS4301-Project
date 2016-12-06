@@ -59,7 +59,7 @@ if( !isset($_SESSION['username']) )
             <?php
 			if( isset($_SESSION['username']) )
 			{
-				echo "Welcome, " . $_SESSION['username'];
+				echo "Welcome, <a target='_blank' href='index-4-profile.php'>" . $_SESSION['username'] . "</a>";
 				echo "</br>";
 				echo "<a href='index-6-logout.php'>Logout</a>";
 			}

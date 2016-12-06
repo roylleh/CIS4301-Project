@@ -57,7 +57,7 @@ if( !isset($_SESSION['username']) )
             <?php
 			if( isset($_SESSION['username']) )
 			{
-				echo "Welcome, " . $_SESSION['username'];
+				echo "Welcome, <a target='_blank' href='index-4-profile.php'>" . $_SESSION['username'] . "</a>";
 				echo "</br>";
 				echo "<a href='index-6-logout.php'>Logout</a>";
 			}
@@ -85,10 +85,185 @@ if( !isset($_SESSION['username']) )
                     	<center>
                         	<h2>appointments</h2>
 
-<?php
-echo "<br><br>";
+<br>
+<form name="calendar" method="post">
+	<table>
+    	<tr>
+        	<td valign="middle">
+            	<select name="month">
+                	<option value="1">January</option>
+                	<option value="2">February</option>
+                	<option value="3">March</option>
+                	<option value="4">April</option>
+                	<option value="5">May</option>
+                	<option value="6">June</option>
+                	<option value="7">July</option>
+                	<option value="8">August</option>
+                	<option value="9">September</option>
+                	<option value="10">October</option>
+                	<option value="11">November</option>
+                	<option value="12">December</option>
+                </select>
+                &nbsp;&nbsp;
+            </td>
+            <td valign="middle">
+            	<input name="year" id="year" type="text" size="4" value="2016"/>
+                &nbsp;&nbsp;
+            </td>
+            <td valign="middle">
+            	<input name="submit" type="submit" value="Submit"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<br>
 
-echo "This is where we'd put our appointments, if we had any...";
+<style>
+/* calendar */
+table.calendar		{ border-left:1px solid #999; }
+tr.calendar-row	{  }
+td.calendar-day	{ min-height:80px; font-size:12px; position:relative; } * html div.calendar-day { height:80px; }
+td.calendar-day:hover	{ background:#eceff5; }
+td.calendar-day-np	{ background:#eee; min-height:80px; } * html div.calendar-day-np { height:80px; }
+td.calendar-day-head { background:#ccc; font-weight:bold; text-align:center; width:120px; padding:5px; border-bottom:1px solid #999; border-top:1px solid #999; border-right:1px solid #999; }
+div.day-number		{ background:#999; padding:5px; color:#fff; font-weight:bold; float:right; margin:-5px -5px 0 0; width:20px; text-align:center; }
+/* shared */
+td.calendar-day, td.calendar-day-np { width:120px; padding:5px; border-bottom:1px solid #999; border-right:1px solid #999; }
+</style>
+
+<?php
+$username = $_SESSION['username'];
+
+
+/* draws a calendar */
+function draw_calendar($month,$year,$db,$user){
+
+	/* draw table */
+	$calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
+
+	/* table headings */
+	$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	$calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td><td class="calendar-day-head">',$headings).'</td></tr>';
+
+	/* days and weeks vars now ... */
+	$running_day = date('w',mktime(0,0,0,$month,1,$year));
+	$days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+	$days_in_this_week = 1;
+	$day_counter = 0;
+	$dates_array = array();
+
+	/* row for week one */
+	$calendar.= '<tr class="calendar-row">';
+
+	/* print "blank" days until the first of the current week */
+	for($x = 0; $x < $running_day; $x++):
+		$calendar.= '<td class="calendar-day-np"> </td>';
+		$days_in_this_week++;
+	endfor;
+
+	/* keep going with days.... */
+	for($list_day = 1; $list_day <= $days_in_month; $list_day++):
+		$calendar.= '<td class="calendar-day">';
+			/* add in the day number */
+			$calendar.= '<div class="day-number">'.$list_day.'</div>';
+
+			/** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
+			$sql_date = date( "j-M-y", mktime(0, 0, 0, $month, $list_day, $year) );
+			
+			$appointments = oci_parse( $db, "SELECT doctorid, app_time FROM appointments WHERE app_date = '$sql_date' AND userid = (SELECT userid FROM users WHERE username = '$user')" );
+			oci_execute($appointments);
+			
+			while( ($row = oci_fetch_row($appointments)) != false )
+			{
+				$doctorid = $row[0];
+				$app_time = $row[1];
+				
+				$doctor = oci_parse( $db, "SELECT name, address, phone FROM doctors WHERE doctorid = $doctorid" );
+				oci_execute($doctor);
+				
+				$array = oci_fetch_array($doctor);
+				oci_free_statement($doctor);
+				
+				$name = $array[0];
+				$address = $array[1];
+				$phone = $array[2];
+				
+				$calendar.= "<p><a href='' title='$address, $phone'>$name</a><br>$app_time<br></p>";
+			}
+			oci_free_statement($appointments);
+			
+			if( empty($doctorid) ) $calendar.= "<p><br><br></p>";
+			
+		$calendar.= '</td>';
+		if($running_day == 6):
+			$calendar.= '</tr>';
+			if(($day_counter+1) != $days_in_month):
+				$calendar.= '<tr class="calendar-row">';
+			endif;
+			$running_day = -1;
+			$days_in_this_week = 0;
+		endif;
+		$days_in_this_week++; $running_day++; $day_counter++;
+	endfor;
+
+	/* finish the rest of the days in the week */
+	if($days_in_this_week < 8):
+		for($x = 1; $x <= (8 - $days_in_this_week); $x++):
+			$calendar.= '<td class="calendar-day-np"> </td>';
+		endfor;
+	endif;
+
+	/* final row */
+	$calendar.= '</tr>';
+
+	/* end the table */
+	$calendar.= '</table>';
+	
+	/* all done, return result */
+	return $calendar;
+}
+
+
+if( $_POST['submit'] == 'Submit' )
+{
+	$month = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['month']) );
+	$year = trim( preg_replace("/[^a-zA-Z0-9]/", "", $_POST['year']) );
+	
+	$month2 = date( "F", mktime(0, 0, 0, $month, 1, $year) );
+	
+	echo "<h1>$month2 $year</h1><br>";
+	echo draw_calendar( $month, $year, $oracle_conn, $username );
+	echo "<br><br>";
+}
+
+$appointments = oci_parse( $oracle_conn, "SELECT doctorid, app_date, app_time FROM appointments WHERE userid = (SELECT userid FROM users WHERE username = '$username')" );
+oci_execute($appointments);
+
+while( ($row = oci_fetch_row($appointments)) != false )
+{
+	$doctorid = $row[0];
+	$app_date = $row[1];
+	$app_time = $row[2];
+	
+	$doctor = oci_parse( $oracle_conn, "SELECT name FROM doctors WHERE doctorid = $doctorid" );
+	oci_execute($doctor);
+	
+	$array = oci_fetch_array($doctor);
+	oci_free_statement($doctor);
+	
+	$doctorname = $array[0];
+	
+	echo "<strong>Doctor: </strong>" . $doctorname . "<br>";
+	echo "<strong>Date: </strong>" . $app_date . "<br>";
+	echo "<strong>Time: </strong>" . $app_time . "<br>";
+	echo "<br>";
+}
+oci_free_statement($appointments);
+
+if( empty($doctorid) ) echo "<span style='color:#FF0000'>You have no appointments at the moment.</span>";
+
+oci_close($db);
+oci_close($oracle_conn);
 ?>
 
                         </center>

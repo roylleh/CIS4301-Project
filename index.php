@@ -62,7 +62,7 @@ session_start();
             <?php
 			if( isset($_SESSION['username']) )
 			{
-				echo "Welcome, " . $_SESSION['username'];
+				echo "Welcome, <a target='_blank' href='index-4-profile.php'>" . $_SESSION['username'] . "</a>";
 				echo "</br>";
 				echo "<a href='index-6-logout.php'>Logout</a>";
 			}
@@ -87,41 +87,24 @@ session_start();
             <div class="container_24">
                 <div class="wrapper">
                     <article class="grid_24">
-                    	<div class="gallery1 scroll-pane horizontal-only">
-                        	<div class="box">
-                            	<div class="wrapper">
-                                    <div class="f_left col-1">
-                                        <a href="images/1page_img1_1.jpg"><img src="images/1page_img1.jpg" width="317" height="147" alt=""></a>
-                                        <a href="images/1page_img2_2.jpg"><img src="images/1page_img2.jpg" width="317" height="294" alt=""></a>
-                                    </div>
-                                    <div class="f_left col-2 extra_wrapper">
-                                        <a href="images/1page_img3_3.jpg" class="f_left"><img src="images/1page_img3.jpg" width="158" height="147" alt=""></a>
-                                        <a href="images/1page_img4_4.jpg" class="f_left"><img src="images/1page_img4.jpg" width="158" height="147" alt=""></a>
-                                        <div class="clear"></div>
-                                        <a href="images/1page_img5_5.jpg"><img src="images/1page_img5.jpg" width="316" height="147" alt=""></a>
-                                        <a href="images/1page_img6_6.jpg"><img src="images/1page_img6.jpg" width="316" height="147" alt=""></a>
-                                    </div>
-                                    <div class="f_left col-3 extra_wrapper">
-                                        <a href="images/1page_img7_7.jpg"><img src="images/1page_img7.jpg" width="317" height="294" alt=""></a>
-                                        <a href="images/1page_img8_8.jpg" class="f_left"><img src="images/1page_img8.jpg" width="158" height="147" alt=""></a>
-                                        <a href="images/1page_img9_9.jpg" class="f_left"><img src="images/1page_img9.jpg" width="159" height="147" alt=""></a>
-                                    </div>
-                                    <div class="f_left col-1">
-                                        <a href="images/1page_img1_1.jpg"><img src="images/1page_img1.jpg" width="317" height="147" alt=""></a>
-                                        <a href="images/1page_img2_2.jpg"><img src="images/1page_img2.jpg" width="317" height="294" alt=""></a>
-                                    </div>
-                                    <div class="f_left col-2 extra_wrapper">
-                                        <a href="images/1page_img3_3.jpg" class="f_left"><img src="images/1page_img3.jpg" width="158" height="147" alt=""></a>
-                                        <a href="images/1page_img4_4.jpg" class="f_left"><img src="images/1page_img4.jpg" width="158" height="147" alt=""></a><br>
-                                        <a href="images/1page_img5_5.jpg"><img src="images/1page_img5.jpg" width="316" height="147" alt=""></a>
-                                        <a href="images/1page_img6_6.jpg"><img src="images/1page_img6.jpg" width="316" height="147" alt=""></a>
-                                    </div>
-                                    <div class="f_left col-3 extra_wrapper">
-                                        <a href="images/1page_img7_7.jpg"><img src="images/1page_img7.jpg" width="317" height="294" alt=""></a>
-                                        <a href="images/1page_img8_8.jpg" class="f_left"><img src="images/1page_img8.jpg" width="158" height="147" alt=""></a>
-                                        <a href="images/1page_img9_9.jpg" class="f_left"><img src="images/1page_img9.jpg" width="159" height="147" alt=""></a>
-                                    </div>
-                                </div>
+                        <div class="box">
+                            <div class="wrapper">
+                            	<center>
+                                	<br><br>
+                                	<table width="auto">
+                                		<tr>
+                                    		<td align="left" valign="middle">
+                                        		<img src="https://thumbs.dreamstime.com/z/doctor-holding-carrots-2425997.jpg" width="325" height="348">
+                                        	</td>
+                                        	<td align="middle" valign="middle">
+                                            	<img src="http://www.cise.ufl.edu/~mschneid/markus.jpg" width="309" height="348">
+                                        	</td>
+                                        	<td align="right" valign="middle">
+                                        		<img src="https://thumbs.dreamstime.com/z/doctor-holding-carrots-2431970.jpg" width="325" height="348">
+                                        	</td>
+                                    	</tr>
+                                	</table>
+                                </center>
                             </div>
                         </div>
                     </article>

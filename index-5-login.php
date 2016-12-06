@@ -58,7 +58,7 @@ if( isset($_SESSION['username']) )
             <?php
 			if( isset($_SESSION['username']) )
 			{
-				echo "Welcome, " . $_SESSION['username'];
+				echo "Welcome, <a target='_blank' href='index-4-profile.php'>" . $_SESSION['username'] . "</a>";
 				echo "</br>";
 				echo "<a href='index-6-logout.php'>Logout</a>";
 			}
@@ -124,20 +124,20 @@ if( !$validated )
 <form name="login" method="post">
 	<table>
     	<tr>
-        	<td align="right" valign="baseline"><strong>Username:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="username" id="username" type="text"/></td>
-        </tr>
+        	<td align="right" valign="middle"><strong>Username:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="username" id="username" type="text"/></td>
+		</tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><strong>Password:&nbsp;&nbsp;</strong></td>
-            <td align="left" valign="baseline"><input name="password" id="password" type="password"/></td>
-        </tr>
+        	<td align="right" valign="middle"><strong>Password:&nbsp;&nbsp;</strong></td>
+            <td align="left" valign="middle"><input name="password" id="password" type="password"/></td>
+		</tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
-        	<td align="right" valign="baseline"><input name="validate" type="hidden" value="yes"/></td>
-            <td align="left" valign="baseline"><input name="submit" type="submit" value="Login"/></td>
-        </tr>
-    </table>
+        	<td align="right" valign="middle"><input name="validate" type="hidden" value="yes"/></td>
+            <td align="left" valign="middle"><input name="submit" type="submit" value="Login"/></td>
+		</tr>
+	</table>
 </form>
 <?php
 }
