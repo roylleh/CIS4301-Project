@@ -245,15 +245,17 @@ while( ($row = oci_fetch_row($appointments)) != false )
 	$app_date = $row[1];
 	$app_time = $row[2];
 	
-	$doctor = oci_parse( $oracle_conn, "SELECT name FROM doctors WHERE doctorid = $doctorid" );
+	$doctor = oci_parse( $oracle_conn, "SELECT name, address, phone FROM doctors WHERE doctorid = $doctorid" );
 	oci_execute($doctor);
 	
 	$array = oci_fetch_array($doctor);
 	oci_free_statement($doctor);
 	
-	$doctorname = $array[0];
+	$name = $array[0];
+	$address = $array[1];
+	$phone = $array[2];
 	
-	echo "<strong>Doctor: </strong>" . $doctorname . "<br>";
+	echo "<strong>Doctor: </strong><a href='' title='$address, $phone'>" . $name . "</a><br>";
 	echo "<strong>Date: </strong>" . $app_date . "<br>";
 	echo "<strong>Time: </strong>" . $app_time . "<br>";
 	echo "<br>";
