@@ -91,14 +91,12 @@ session_start();
                             <div class="wrapper">
                             	<center>
                                 	<br><br>
-                                	<table width="auto">
+                                	<table>
                                 		<tr>
                                     		<td align="left" valign="middle">
                                         		<img src="https://thumbs.dreamstime.com/z/doctor-holding-carrots-2425997.jpg" width="325" height="348">
                                         	</td>
-                                        	<td align="middle" valign="middle">
-                                            	<img src="http://www.cise.ufl.edu/~mschneid/markus.jpg" width="309" height="348">
-                                        	</td>
+						<td>&nbsp;</td>
                                         	<td align="right" valign="middle">
                                         		<img src="https://thumbs.dreamstime.com/z/doctor-holding-carrots-2431970.jpg" width="325" height="348">
                                         	</td>

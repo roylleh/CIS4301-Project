@@ -163,7 +163,7 @@ echo "<br><br>";
 oci_close($oracle_conn);
 ?>
 
-<input name="submit" type="submit" value="Do Not Press"/>
+<form><input type=button value="Do Not Press" onClick="window.location.reload()"></form>
 
                         </center>
                     </article>

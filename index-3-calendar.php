@@ -91,23 +91,21 @@ if( !isset($_SESSION['username']) )
     	<tr>
         	<td valign="middle">
             	<select name="month">
-                	<option value="1">January</option>
-                	<option value="2">February</option>
-                	<option value="3">March</option>
-                	<option value="4">April</option>
-                	<option value="5">May</option>
-                	<option value="6">June</option>
-                	<option value="7">July</option>
-                	<option value="8">August</option>
-                	<option value="9">September</option>
-                	<option value="10">October</option>
-                	<option value="11">November</option>
-                	<option value="12">December</option>
+			<?php
+			$monthval = $_POST['month'];
+			for( $i = 1; $i <= 12; $i++ )
+			{
+				echo "<option value='$i'";
+				if( isset($monthval) && $i == $monthval ) echo " selected";
+				echo ">" . date( "F", mktime(0, 0, 0, $i, 1, 2000) );
+				echo "</option>";
+			}
+			?>
                 </select>
                 &nbsp;&nbsp;
             </td>
             <td valign="middle">
-            	<input name="year" id="year" type="text" size="4" value="2016"/>
+            	<input name="year" id="year" type="text" size="4" value="<?php echo isset($_POST['year']) ? $_POST['year'] : 2016; ?>"/>
                 &nbsp;&nbsp;
             </td>
             <td valign="middle">
@@ -188,7 +186,7 @@ function draw_calendar($month,$year,$db,$user){
 				$address = $array[1];
 				$phone = $array[2];
 				
-				$calendar.= "<p><a href='' title='$address, $phone'>$name</a><br>$app_time<br></p>";
+				$calendar.= "<p><a href='#' title='$address, $phone'>$name</a><br>$app_time<br></p>";
 			}
 			oci_free_statement($appointments);
 			
@@ -255,7 +253,7 @@ while( ($row = oci_fetch_row($appointments)) != false )
 	$address = $array[1];
 	$phone = $array[2];
 	
-	echo "<strong>Doctor: </strong><a href='' title='$address, $phone'>" . $name . "</a><br>";
+	echo "<strong>Doctor: </strong><a href='#' title='$address, $phone'>" . $name . "</a><br>";
 	echo "<strong>Date: </strong>" . $app_date . "<br>";
 	echo "<strong>Time: </strong>" . $app_time . "<br>";
 	echo "<br>";
